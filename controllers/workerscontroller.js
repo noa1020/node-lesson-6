@@ -1,7 +1,9 @@
 const employees = require('../data/workers.json');
+const express = require('express'); 
+const workersRouter=express.Router();
 
 // Get employee details by ID
-exports.getEmployeeDetails = (req, res) => {
+workersRouter.get('/workers/:id', (req, res) => {
   const { id } = req.params;
   const employee= employees.find((emp) => emp.id === parseInt(id));
   if(employee)
@@ -9,10 +11,10 @@ exports.getEmployeeDetails = (req, res) => {
   else
   res.json("not found");
   
-};
+});
 
 // Get list of all employees with optional filters
-exports.getAllEmployees = (req, res) => {
+workersRouter.get('/workers',(req, res) => {
     const position = req.query.position ? req.query.position : null;
     const department = req.query.department ? req.query.department.toLowerCase() : null;
     const start_of_work_date = req.query.start_of_work_date ? req.query.start_of_work_date.toLowerCase() : null;
@@ -31,4 +33,6 @@ if(workers_result.length>0)
     else
     res.json("not found");
   
-};
+});
+
+module.exports=workersRouter;
