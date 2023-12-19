@@ -1,10 +1,15 @@
 const express = require('express'); 
 const workersController = require('./controllers/workerscontroller');
 const coursesController = require('./controllers/coursescontroller');
-
 const app = express();
-app.use(coursesController);
-app.use(workersController);
+
+const bodyParser = require('body-parser');
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+
+app.use('/workers', workersController);
+app.use('/courses', coursesController);
+
 
 // Server start
  app.listen(3000, () => {
@@ -21,3 +26,9 @@ app.use((err, req, res, next) => {
     res.status(500).json({ error: "An error occurred on the server. Please try again later." });
   });
   
+
+
+//const a = require('body-parser');
+//app.use(a.json());
+//app.use(a.urlencoded({extended:false}));
+
